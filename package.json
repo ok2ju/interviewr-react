@@ -1,0 +1,16 @@
+{
+  "name": "interviewr-react",
+  "version": "0.0.1",
+  "description": "Application for managing online interviews",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "interview",
+    "communications",
+    "managing tool"
+  ],
+  "author": "Alexey Vakulich <soulSpringg@gmail.com>",
+  "license": "ISC"
+}
