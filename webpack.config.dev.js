@@ -15,15 +15,23 @@ module.exports = {
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: 'http://localhost:3000/'
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      }
+    ],
     loaders: [
       {
         test: /\.html$/,
         loader: 'file?name=[name].[ext]'
       },
       {
+        // https://github.com/webpack/webpack/issues/2248
         test: /\.scss$/,
         loaders: [
           'style-loader',
@@ -67,6 +75,9 @@ module.exports = {
       browsers: ['last 2 versions']
     })];
   },
+  eslint: {
+    configFile: './.eslintrc'
+  },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
@@ -76,7 +87,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: path.resolve(__dirname, './src'),
+    contentBase: path.resolve(__dirname, './dist'),
     port: 3000,
     hot: true,
     historyApiFallback: true

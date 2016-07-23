@@ -67,7 +67,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('development')
+        'NODE_ENV': JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -76,11 +76,5 @@ module.exports = {
       }
     }),
     new ExtractTextPlugin('style.css', { allChunks: true })
-  ],
-  devServer: {
-    contentBase: './src',
-    port: 3000,
-    hot: true,
-    historyApiFallback: true
-  }
+  ]
 }
