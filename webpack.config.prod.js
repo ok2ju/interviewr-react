@@ -41,13 +41,14 @@ module.exports = {
           'babel-loader'
         ]
       },
+      // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
-        loader: 'file-loader?name=images/[name].[ext]'
+        loader: 'url-loader?limit=8192&name=images/[name].[ext]?[hash]'
       },
       {
         test: /\.(woff|woff2|ttf)$/,
-        loader: 'file-loader?name=fonts/[name].[ext]'
+        loader: 'url-loader?limit=8192&name=fonts/[name].[ext]?[hash]'
       }
     ],
   },

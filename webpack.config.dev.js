@@ -15,6 +15,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   module: {
     loaders: [
@@ -48,6 +49,11 @@ module.exports = {
           'babel-loader'
         ]
       },
+      // Inline base64 URLs for <=8k images, direct URLs for the rest
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf)$/,
+        loader: 'url-loader?limit=8192'
+      }
     ],
   },
   // Resolve the `./src` directory so we can avoid writing
@@ -70,7 +76,7 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: './src',
+    contentBase: path.resolve(__dirname, './src'),
     port: 3000,
     hot: true,
     historyApiFallback: true
