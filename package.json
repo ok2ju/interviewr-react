@@ -4,7 +4,12 @@
   "description": "Application for managing online interviews",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean:build": "node ./bin/clean.js createdir",
+    "build:html": "node ./bin/buildHtml.js",
+    "prestart": "node ./bin/clean.js",
+    "start": "webpack-dev-server -d --config ./webpack.config.dev.js --hot --inline --progress --colors",
+    "prebuild": "npm run clean:build && npm run build:html",
+    "build": "webpack --config ./webpack.config.prod.js --progress --colors"
   },
   "keywords": [
     "interview",
@@ -12,5 +17,41 @@
     "managing tool"
   ],
   "author": "Alexey Vakulich <soulSpringg@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "babel": "^6.5.2",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.9.2",
+    "cheerio": "^0.20.0",
+    "colors": "^1.1.2",
+    "css-loader": "^0.23.1",
+    "eslint": "^3.1.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-loader": "^1.4.1",
+    "eslint-plugin-import": "^1.11.1",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^5.2.2",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "node-sass": "^3.8.0",
+    "postcss-loader": "^0.9.1",
+    "react-hot-loader": "^1.3.0",
+    "rimraf": "^2.5.4",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "dependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  }
 }
