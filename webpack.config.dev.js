@@ -3,6 +3,8 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const common = require('./webpack.config');
 
 const sassLoaders = [
   'css-loader?sourceMap',
@@ -10,15 +12,7 @@ const sassLoaders = [
   'sass-loader?outputStyle=expanded',
 ];
 
-module.exports = {
-  context: path.join(__dirname, './src'),
-  entry: {
-    jsx: './index.js',
-    vendor: [
-      'react',
-      'react-dom',
-    ],
-  },
+module.exports = merge(common, {
   output: {
     path: path.join(__dirname, './dist'),
     filename: 'bundle.js',
@@ -43,14 +37,6 @@ module.exports = {
         include: /src/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
       },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loaders: [
-          'react-hot',
-          'babel-loader',
-        ],
-      },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf)$/,
@@ -58,30 +44,14 @@ module.exports = {
       },
     ],
   },
-  // Resolve the `./src` directory so we can avoid writing
-  // ../../styles/base.css
-  resolve: {
-    modulesDirectories: ['node_modules', './src'],
-    extensions: ['', '.js', '.jsx'],
-  },
-  postcss: function () {
-    return [autoprefixer({
-      browsers: ['last 2 versions'],
-    })];
-  },
   eslint: {
     configFile: './.eslintrc',
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
       },
-    }),
-    new ExtractTextPlugin('style.css', { allChunks: true }),
-    new HtmlWebpackPlugin({
-      template: './index.html',
     }),
   ],
   devServer: {
@@ -90,4 +60,4 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
   },
-};
+});
