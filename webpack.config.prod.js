@@ -1,12 +1,13 @@
-var webpack = require('webpack');
-var path = require('path');
-var autoprefixer = require('autoprefixer');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var sassLoaders = [
+const sassLoaders = [
   'css-loader?sourceMap',
   'postcss-loader',
-  'sass-loader?outputStyle=compressed'
+  'sass-loader?outputStyle=compressed',
 ];
 
 module.exports = {
@@ -15,8 +16,8 @@ module.exports = {
     jsx: './index.js',
     vendor: [
       'react',
-      'react-dom'
-    ]
+      'react-dom',
+    ],
   },
   output: {
     path: path.join(__dirname, './dist'),
@@ -26,20 +27,20 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!'))
+        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')),
       },
       {
         test: /\.css$/,
         include: /src/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loaders: [
           'react-hot',
-          'babel-loader'
-        ]
+          'babel-loader',
+        ],
       },
       // Inline base64 URLs for <=8k images, direct URLs for the rest
       {
@@ -49,32 +50,35 @@ module.exports = {
       {
         test: /\.(woff|woff2|ttf)$/,
         loader: 'url-loader?limit=8192&name=fonts/[name].[ext]?[hash]'
-      }
+      },
     ],
   },
   // Resolve the `./src` directory so we can avoid writing
   // ../../styles/base.css
   resolve: {
     modulesDirectories: ['node_modules', './src'],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
   },
   postcss: function () {
     return [autoprefixer({
-      browsers: ['last 2 versions']
+      browsers: ['last 2 versions'],
     })];
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
-    new ExtractTextPlugin('style.css', { allChunks: true })
-  ]
-}
+    new ExtractTextPlugin('style.css', { allChunks: true }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
+  ],
+};
