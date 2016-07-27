@@ -11,6 +11,8 @@ module.exports = {
     vendor: [
       'react',
       'react-dom',
+      'redux',
+      'react-redux',
     ],
   },
   module: {
@@ -30,6 +32,11 @@ module.exports = {
   resolve: {
     modulesDirectories: ['node_modules', './src'],
     extensions: ['', '.js', '.jsx'],
+    alias: {
+      // TODO: fix this path's
+      static: 'src/static',
+      components: 'src/components',
+    },
   },
   postcss: function () {
     return [autoprefixer({
